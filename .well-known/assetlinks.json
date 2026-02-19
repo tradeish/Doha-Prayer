@@ -3,6 +3,6 @@
       "target": {
         "namespace": "android_app",
         "package_name": "io.github.tradeish.twa",
-        "sha256_cert_fingerprints": ["25:25:06:6D:47:6A:7C:16:29:A3:75:4A:BA:2A:10:B9:C7:C2:35:36:A4:DC:10:45:E8:1C:35:ED:40:D0:AB:54"]
+        "sha256_cert_fingerprints": ["4C:C4:BE:22:02:D9:0F:9A:69:2B:59:DB:A1:E4:1A:05:33:E3:36:76:F0:1A:83:7E:E2:16:DC:DC:32:4E:5F:83"]
       }
     }]
