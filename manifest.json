@@ -2,7 +2,7 @@
   "name": "DOHA PRAYERS",
   "short_name": "DOHA",
   "start_url": "index.html",
-  "display": "standalone",
+  "display": "fullscreen",
   "display_override": ["fullscreen", "standalone"],
   "scope": "./",
   "orientation": "portrait",
