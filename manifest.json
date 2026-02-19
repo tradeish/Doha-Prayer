@@ -4,9 +4,6 @@
   "short_name": "Doha",
   "start_url": "./index.html",
   "display": "standalone",
-  "display_override": [
-    "window-controls-overlay"
-  ],
   "scope": "./",
   "background_color": "#000000",
   "theme_color": "#000000",
