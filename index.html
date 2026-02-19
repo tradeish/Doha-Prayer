@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Doha Prayer - Khulna Master Final</title>
+    <link rel="manifest" href="data:application/manifest+json,{'name':'Doha Prayer','short_name':'Doha','start_url':'.','display':'standalone','background_color':'#000000','theme_color':'#00f2fe'}" />
+</head>
+<body style="margin: 0; padding: 0; background: #000; overflow: hidden;">
+
+<div id="d-app" style="font-family: Arial, sans-serif; background: #000; color: #fff; padding: 25px 15px; width: 100vw; height: 100vh; text-align: center; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between;">
+    
+    <div style="display: flex; justify-content: center; align-items: center; position: relative;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhcdIWAdcXEh9jTqCgvRSwtNZiYGUKQhxthdTxgoLtvpHosJJ-Tvl85Xhmh8CVeweSGpKzwsO1pbTiQjgUM9l2wG79AiSMoeBFtX-NUdh7Mt5DRw_wCc7TtW99vShm37WE2pgupGf7lGlQbFzko-u8Oh1Hd3dVQskjPdnDnpEu74tbP6-18fJvQ6-UkhEcB/s512/cropped_circle_image_2_-removebg-preview-512x512.png" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid #00f2fe;">
+            <b id="d-t" style="color: #00f2fe; font-size: 24px; letter-spacing: 2px;">DOHA PRAYER</b>
+        </div>
+        <span id="d-i" style="cursor: pointer; font-size: 30px; position: absolute; right: 0;" onclick="tM()">🌙</span>
+    </div>
+    
+    <div style="display: flex; justify-content: space-around; font-size: 16px; background: rgba(255,255,255,0.1); padding: 18px; border-radius: 15px; border: 1px solid rgba(0,242,254,0.2); margin: 20px 0;">
+        <div>☀️ SUNRISE<br /><span id="sr" style="font-weight: bold;">--:--</span></div>
+        <div style="width:1px; background:rgba(0,242,254,0.3);"></div>
+        <div>🌑 SUNSET<br /><span id="ss" style="font-weight: bold;">--:--</span></div>
+    </div>
+    
+    <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; gap: 5px;">
+        <div id="wl" style="font-size: 20px; color: #ffcc00; font-weight: bold; text-transform: uppercase;">AUTO SYNCING...</div>
+        <div id="dt" style="font-size: 70px; font-weight: bold; color: #00f2fe; margin: 10px 0; text-shadow: 0 0 20px rgba(0,242,254,0.6);">00:00:00</div>
+        <div id="dl" style="width: 100%; display: flex; flex-direction: column; gap: 15px;"></div>
+    </div>
+
+    <div id="dev-s" style="font-size: 13px; color: #00f2fe; text-align: right; letter-spacing: 1px; opacity: 0.8; padding-top: 10px;">
+        DEVELOPED BY ISHAAN
+    </div>
+</div>
+
+<script>
+    var isD = true; var lastN = "";
+    var userImg = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhcdIWAdcXEh9jTqCgvRSwtNZiYGUKQhxthdTxgoLtvpHosJJ-Tvl85Xhmh8CVeweSGpKzwsO1pbTiQjgUM9l2wG79AiSMoeBFtX-NUdh7Mt5DRw_wCc7TtW99vShm37WE2pgupGf7lGlQbFzko-u8Oh1Hd3dVQskjPdnDnpEu74tbP6-18fJvQ6-UkhEcB/s512/cropped_circle_image_2_-removebg-preview-512x512.png";
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('data:text/javascript;base64,' + btoa('self.addEventListener("fetch", function(e){});'));
+    }
+
+    function sendNotify(title, body) {
+        if (Notification.permission === "granted") {
+            new Notification(title, { body: body, icon: userImg });
+        }
+    }
+
+    function tM() {
+        var b = document.getElementById('d-app'), i = document.getElementById('d-i'), l = document.getElementById('wl'), t = document.getElementById('d-t'), sr = document.getElementById('sr'), ss = document.getElementById('ss'), ds = document.getElementById('dev-s');
+        isD = !isD;
+        var c = isD ? "#00f2fe" : "#008c9e";
+        b.style.background = isD ? "#000" : "#ffffff"; 
+        b.style.color = isD ? "#fff" : "#222";
+        // আইকন পরিবর্তনের লজিক (🌙 থেকে ☀️)
+        i.innerText = isD ? "🌙" : "☀️";
+        l.style.color = isD ? "#ffcc00" : "#b8860b";
+        t.style.color = c; sr.style.color = c; ss.style.color = c; ds.style.color = c;
+        u();
+    }
+
+    function getPrayerTimes() {
+        var d = new Date(), day = d.getDate(), month = d.getMonth(), year = d.getFullYear();
+        var n = Math.floor((new Date(year, month, day) - new Date(year, 0, 0)) / 86400000);
+        var b = 2 * Math.PI * (n - 81) / 365;
+        var eqt = 9.87 * Math.sin(2 * b) - 7.53 * Math.cos(b) - 1.5 * Math.sin(b);
+        var dec = 23.45 * Math.sin(b);
+        var lat = 22.8456, lng = 89.5403;
+        var cosH = (Math.cos(90.833 * Math.PI / 180) - Math.sin(lat * Math.PI / 180) * Math.sin(dec * Math.PI / 180)) / (Math.cos(lat * Math.PI / 180) * Math.cos(dec * Math.PI / 180));
+        var H = Math.acos(cosH) * 180 / Math.PI;
+        var transit = 720 - 4 * lng - eqt + (6 * 60); 
+        var sunrise = Math.floor(transit - 4 * H);
+        var sunset = Math.floor(transit + 4 * H);
+        return { fajr: sunrise - 80, sunrise: sunrise, dhuhr: Math.floor(transit + 16), asr: sunset - 105, sunset: sunset, isha: sunset + 75 };
+    }
+
+    function formatT(min) {
+        var h = Math.floor(min / 60) % 24, m = min % 60;
+        var ampm = h >= 12 ? 'PM' : 'AM';
+        h = h % 12; h = h ? h : 12;
+        return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m + ' ' + ampm;
+    }
+
+    function u() {
+        var n = new Date(), h = n.getHours(), m = n.getMinutes(), s = 59 - n.getSeconds();
+        var cur = h * 60 + m; var t = getPrayerTimes();
+        var c = isD ? "#00f2fe" : "#008c9e", fC = isD ? "#5271ff" : "#3f51b5";
+
+        document.getElementById('sr').innerText = formatT(t.sunrise);
+        document.getElementById('ss').innerText = formatT(t.sunset);
+
+        var fEnd = t.sunrise - 8, aEnd = t.sunset - 15;
+        var isForbidden = (cur >= fEnd && cur < t.sunrise) || (cur >= aEnd && cur < t.sunset);
+
+        // জরুরি ফরবিডেন নোটিফিকেশন লজিক
+        if (isForbidden && lastN !== "forbidden_notif") {
+            sendNotify("⚠️ PRAYER PROHIBITED", "Forbidden time has started. Please do not pray now!");
+            lastN = "forbidden_notif";
+        }
+
+        var p = [
+            {n: 'Fajr', s: t.fajr, e: fEnd, t: formatT(t.fajr)},
+            {n: 'Dhuhr', s: t.dhuhr, e: t.asr, t: formatT(t.dhuhr)},
+            {n: 'Asr', s: t.asr, e: aEnd, t: formatT(t.asr)},
+            {n: 'Maghrib', s: t.sunset, e: t.sunset + 70, t: formatT(t.sunset)},
+            {n: 'Isha', s: t.isha, e: 1439, t: formatT(t.isha)}
+        ];
+
+        var htm = '';
+        for (var i = 0; i < p.length; i++) {
+            var past = cur >= p[i].e, current = (cur >= p[i].s && cur < p[i].e);
+            var bg, op, bor, lC, tC;
+
+            // সাধারণ ওয়াক্ত নোটিফিকেশন
+            if (cur === p[i].s && lastN !== p[i].n + "s") { sendNotify(p[i].n + " Started", "Time for " + p[i].n + " begun in Khulna."); lastN = p[i].n + "s"; }
+            if (cur === p[i].e - 5 && lastN !== p[i].n + "e") { sendNotify(p[i].n + " Ending Soon", "Only 5 minutes left for " + p[i].n); lastN = p[i].n + "e"; }
+
+            if (current) {
+                bg = isD ? "rgba(0, 242, 254, 0.2)" : "rgba(0, 140, 158, 0.1)"; op = "1"; bor = "2px solid " + c; lC = isD ? "#fff" : "#000"; tC = c;
+                if (!isForbidden) {
+                    var rm = p[i].e - cur - 1;
+                    document.getElementById('dt').innerText = (Math.floor(rm/60)<10?"0":"")+Math.floor(rm/60)+":"+(rm%60<10?"0":"")+rm%60+":"+(s<10?"0":"")+s;
+                    document.getElementById('wl').innerText = p[i].n + " ENDS IN:";
+                    document.getElementById('dt').style.color = (rm < 5) ? "#ff4d4d" : c;
+                }
+            } else if (past) {
+                bg = "rgba(128, 128, 128, 0.05)"; op = "0.3"; bor = "1px solid transparent"; lC = "inherit"; tC = "gray";
+            } else {
+                bg = isD ? "rgba(82, 113, 255, 0.1)" : "rgba(63, 81, 181, 0.05)"; op = "1"; bor = "1px solid " + fC; lC = fC; tC = fC;
+            }
+            htm += '<div style="display:flex; justify-content:space-between; padding:22px; border-radius:15px; background:'+bg+'; opacity:'+op+'; border:'+bor+'; transition: 0.3s; font-size: 22px;"><span style="font-weight:bold; color:'+ lC +';">' + p[i].n + '</span><span style="color:'+tC+'; font-weight:bold;">' + p[i].t + '</span></div>';
+        }
+
+        if (isForbidden) {
+            document.getElementById('dt').innerText = "FORBIDDEN";
+            document.getElementById('wl').innerText = "PROHIBITED TIME";
+            document.getElementById('dt').style.color = "#ff4d4d";
+        } else if (lastN === "forbidden_notif") {
+            lastN = ""; // রিসেট লজিক যাতে পরের ওয়াক্তে আবার কাজ করে
+        }
+        document.getElementById('dl').innerHTML = htm;
+    }
+    setInterval(u, 1000); window.onload = u;
+</script>
+</body>
+</html>
