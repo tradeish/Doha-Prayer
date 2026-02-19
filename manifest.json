@@ -3,6 +3,9 @@
   "short_name": "DOHA",
   "start_url": "index.html",
   "display": "standalone",
+  "display_override": ["fullscreen", "standalone"],
+  "scope": "./",
+  "orientation": "portrait",
   "background_color": "#000000",
   "theme_color": "#000000",
   "icons": [
