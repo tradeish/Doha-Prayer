@@ -7,9 +7,10 @@
   "theme_color": "#000000",
   "icons": [
     {
-      "src": "icon.png",
+      "src": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhcdIWAdcXEh9jTqCgvRSwtNZiYGUKQhxthdTxgoLtvpHosJJ-Tvl85Xhmh8CVeweSGpKzwsO1pbTiQjgUM9l2wG79AiSMoeBFtX-NUdh7Mt5DRw_wCc7TtW99vShm37WE2pgupGf7lGlQbFzko-u8Oh1Hd3dVQskjPdnDnpEu74tbP6-18fJvQ6-UkhEcB/s512/cropped_circle_image_2_-removebg-preview-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
