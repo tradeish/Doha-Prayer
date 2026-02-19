@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.github.tradeish.twa",
+        "sha256_cert_fingerprints": ["25:25:06:6D:47:6A:7C:16:29:A3:75:4A:BA:2A:10:B9:C7:C2:35:36:A4:DC:10:45:E8:1C:35:ED:40:D0:AB:54"]
+      }
+    }]
